@@ -43,7 +43,7 @@ const login = async () => {
     return;
   }
   console.log("Login successful")
-  router.push("/dashboard")
+  router.push("/dashboard");
 };
 </script>
 
