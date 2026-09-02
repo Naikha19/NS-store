@@ -1684,7 +1684,7 @@ const initialProducts = [
 const categories = ["Women's wear", "Men's wear","Kids","Accessories"];
 
 // --- STATE DEFINITIONS ---
-const isDarkMode = ref(true);
+const isDarkMode = ref(false);
 const isMobileSidebarOpen = ref(false);
 const isNotificationsOpen = ref(false);
 const activeTab = ref("dashboard");
