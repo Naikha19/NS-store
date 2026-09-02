@@ -103,7 +103,7 @@ const signup = async () => {
     <!-- Signup Form -->
     <form
       @submit.prevent="signup"
-      class="w-full max-w-md px-5 py-4 sm:px-8 sm:py-6"
+      class="w-full max-w-md px-5 py-4 sm:px-5 sm:py-6"
     >
       <!-- Heading -->
       <h1
@@ -112,7 +112,7 @@ const signup = async () => {
         Who's this ?
       </h1>
 
-      <div class="flex flex-col gap-3">
+      <div class="flex flex-col gap-3 md:gap-5">
 
         <!-- First Name -->
         <div>

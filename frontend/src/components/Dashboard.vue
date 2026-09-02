@@ -2,16 +2,16 @@
   <div
     :class="[
       isDarkMode
-        ? 'dark bg-slate-950 text-slate-100'
-        : 'bg-slate-50 text-slate-800',
-      'min-h-screen flex font-sans antialiased transition-colors duration-200',
+      ? 'dark bg-slate-950 text-slate-100'
+      : 'bg-slate-50 text-slate-800',
+        'min-h-screen flex font-sans antialiased transition-colors duration-200'
     ]"
   >
     <!-- MOBILE SIDEBAR BACKDROP -->
     <div
       v-if="isMobileSidebarOpen"
       @click="isMobileSidebarOpen = false"
-      class="fixed inset-0 z-40 bg-slate-900/60 backdrop-blur-sm lg:hidden transition-opacity"
+      class="fixed inset-0 z-0 bg-slate-900/60 backdrop-blur-sm lg:hidden transition-opacity"
     ></div>
 
     <!-- SIDEBAR NAVIGATION -->
@@ -32,7 +32,7 @@
       >
         <div class="flex items-center space-x-3">
           <div
-            class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/25"
+            class="w-10 h-10 rounded-xl bg-gradient-to-tr from-pink-600 to-violet-400 flex items-center justify-center text-white shadow-lg shadow-indigo-500/25"
           >
             <svg
               class="w-6 h-6"
@@ -50,7 +50,7 @@
           </div>
           <div>
             <h1 class="font-extrabold text-lg tracking-tight leading-tight">
-              NS <span class="text-indigo-500">STORE</span>
+              NS <span class="text-pink-500/50">STORE</span>
             </h1>
             <p
               class="text-[10px] text-slate-400 font-medium tracking-wider uppercase"
@@ -91,11 +91,11 @@
             activeTab === item.id
               ? (isDarkMode
                   ? 'bg-indigo-600/15 text-indigo-400 border-indigo-500/30'
-                  : 'bg-indigo-50 text-indigo-600 border-indigo-200') +
-                ' font-semibold border'
+                  : 'bg-pink-400/90 text-[#f9fafb] border-pink-200') +
+                ' font-semibold '
               : isDarkMode
                 ? 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
-                : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
+                : 'text-slate-600 hover:bg-pink-50 hover:text-slate-900',
             'w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-150 text-sm',
           ]"
         >
@@ -201,7 +201,7 @@
             :class="[
               isDarkMode
                 ? 'bg-slate-800 text-amber-400 border-slate-700'
-                : 'bg-slate-100 text-slate-600 border-slate-200',
+                : 'bg-pink-400/90 text-[#fafafa] border-slate-200',
               'p-2 border rounded-xl hover:opacity-80 transition',
             ]"
             title="Toggle theme"
@@ -243,7 +243,7 @@
               :class="[
                 isDarkMode
                   ? 'bg-slate-800 border-slate-700 text-slate-300'
-                  : 'bg-slate-100 border-slate-200 text-slate-700',
+                  : 'bg-pink-400/90 text-[#fafafa]',
                 'relative p-2 border rounded-xl hover:opacity-80 transition',
               ]"
             >
@@ -324,7 +324,7 @@
           <!-- ADD PRODUCT BTN QUICK -->
           <button
             @click="openAddProductModal"
-            class="flex items-center space-x-1.5 px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs sm:text-sm font-semibold transition shadow-lg shadow-indigo-500/20"
+            class="flex items-center space-x-1.5 px-3.5 py-2 bg-pink-400/90 hover:bg-pink-400/70 text-white rounded-xl text-xs sm:text-sm font-semibold transition shadow-lg shadow-indigo-500/20"
           >
             <svg
               class="w-4 h-4"
@@ -414,7 +414,7 @@
                     Stock Valuation
                   </p>
                   <h3 class="text-2xl sm:text-3xl font-black mt-1">
-                    ${{ formatCurrency(totalValue) }}
+                    Tsh {{ formatCurrency(totalValue) }}
                   </h3>
                 </div>
                 <div
@@ -437,8 +437,8 @@
               </div>
               <p class="text-xs text-slate-400 mt-3">
                 Avg value:
-                <span class="font-bold text-slate-300"
-                  >${{ formatCurrency(avgItemValue) }}</span
+                <span class="font-bold text-slate-350"
+                  >Tsh {{ formatCurrency(avgItemValue) }}</span
                 >
                 / item
               </p>
@@ -547,7 +547,7 @@
               <div>
                 <h3 class="font-bold text-sm mb-1 flex items-center gap-2">
                   <svg
-                    class="w-4 h-4 text-indigo-500"
+                    class="w-4 h-4 text-pink-500"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -575,7 +575,7 @@
                   <div class="flex justify-between text-xs font-medium">
                     <span>{{ cat.name }}</span>
                     <span class="font-bold"
-                      >${{ formatCurrency(cat.value) }} ({{
+                      >Tsh {{ formatCurrency(cat.value) }} ({{
                         cat.percentage
                       }}%)</span
                     >
@@ -587,7 +587,7 @@
                     ]"
                   >
                     <div
-                      class="h-full bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full transition-all duration-500"
+                      class="h-full bg-gradient-to-r from-pink-500/40 to-pink-700/80 rounded-full transition-all duration-500"
                       :style="{ width: cat.percentage + '%' }"
                     ></div>
                   </div>
@@ -698,7 +698,7 @@
               <h3 class="font-bold text-sm">Live Stock Activity</h3>
               <button
                 @click="activeTab = 'transactions'"
-                class="text-xs text-indigo-500 hover:underline font-semibold"
+                class="text-xs text-[#e02c7d]  hover:underline font-semibold"
               >
                 View Full Audit Log &rarr;
               </button>
@@ -726,7 +726,7 @@
                   <tr
                     v-for="tx in transactions.slice(0, 5)"
                     :key="tx.id"
-                    class="hover:bg-indigo-500/5 transition"
+                    class="hover:bg-pink-500/5 transition"
                   >
                     <td class="py-3 px-2 font-mono text-slate-400">
                       {{ formatDate(tx.timestamp) }}
@@ -816,7 +816,7 @@
               <!-- RESET FILTERS -->
               <button
                 @click="resetFilters"
-                class="text-xs text-slate-400 hover:text-indigo-500 px-2 py-1 flex items-center gap-1"
+                class="text-xs text-slate-500 hover:text-[#e02c7d]  px-2 py-1 flex items-center gap-1"
               >
                 <svg
                   class="w-3.5 h-3.5"
@@ -863,7 +863,7 @@
               </button>
               <button
                 @click="openAddProductModal"
-                class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 transition shadow-lg shadow-indigo-500/20"
+                class="px-3.5 py-2 bg-pink-400/90 hover:bg-pink-400/70 text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 transition shadow-lg shadow-indigo-500/20"
               >
                 <svg
                   class="w-4 h-4"
@@ -899,7 +899,7 @@
                     :class="[
                       isDarkMode
                         ? 'bg-slate-950/50 border-slate-800 text-slate-400'
-                        : 'bg-slate-50 border-slate-200 text-slate-500',
+                        : 'bg-slate-50 border-slate-200 text-slate-600',
                       'border-b text-[11px] font-bold uppercase tracking-wider',
                     ]"
                   >
@@ -916,16 +916,16 @@
                 <tbody class="divide-y divide-inherit text-xs">
                   <tr v-if="paginatedProducts.length === 0">
                     <td colspan="8" class="p-12 text-center text-slate-400">
-                      No matching inventory items found.
+                      No matching inventory items found.Please add inventory
                     </td>
                   </tr>
                   <tr
                     v-for="item in paginatedProducts"
                     :key="item.id"
-                    class="hover:bg-indigo-500/5 transition"
+                    class="hover:bg-pink-500/5 transition"
                   >
                     <td class="p-4 pl-6">
-                      <div class="font-bold text-sm">{{ item.name }}</div>
+                      <div class="font-semibold text-sm">{{ item.name }}</div>
                       <div class="text-[11px] text-slate-400 font-mono">
                         {{ item.sku }}
                       </div>
