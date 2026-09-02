@@ -1590,7 +1590,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch, h } from "vue";
+import { ref, computed, onMounted,h } from "vue";
 
 // --- SAMPLE SEED DATA ---
 const initialProducts = [

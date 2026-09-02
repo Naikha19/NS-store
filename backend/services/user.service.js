@@ -61,3 +61,9 @@ export const userLogin = async (email, password) => {
     return;
   }
 };
+
+export const getProducts = async () =>{
+  const products = await pool.query()
+  "SELECT  id, name, sku, category_id, cost_price, selling_price, quantity, low_stock_threshold, created_at FROM products"
+  return products.rows;
+}
