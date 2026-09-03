@@ -1,6 +1,9 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { useUserStore } from "../stores/user.js";
+
+const userStore = useUserStore();
 
 const router = useRouter()
 const email = ref("");
@@ -42,6 +45,8 @@ const login = async () => {
     passwordError.value = data.message || "login failed"
     return;
   }
+  userStore.setUser(data.user)
+  console.log("User saved in Pinia",userStore.user)
   console.log("Login successful")
   router.push("/dashboard");
 };
@@ -77,6 +82,7 @@ const login = async () => {
           :type="showPassword ? 'text' : 'password'"
           id="password"
           placeholder="Password"
+          autocomplete="current-password"
           class="p-4 bg-[#F5EFF2] rounded-3xl outline-none text-[#e02c7d] shadow-[5px_5px_0px_0px_#756B7A]"
         />
         <div class="min-h-5"><p v-if="passwordError" class="text-sm text-red-500">{{ passwordError }}</p></div>
