@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 import AppError from "../utils/AppError.js"
 
+//GET ALL USERS
 export const getUsers = async (req, res, next) => {
   try {
     const users = await userService.getUsers();
@@ -11,6 +12,8 @@ export const getUsers = async (req, res, next) => {
    next(error)
   }
 };
+//GET USER BY ID
+ 
 export const createUser = async (req, res, next) => {
   const { firstName,lastName,email,phoneNumber, password } = req.body;
 
@@ -81,22 +84,46 @@ export const login = async (req, res, next) => {
     })
     return res.status(200).json({
       message: "Login successfull",
+      user: user
     });
   } catch (error) {
    next(error)
   }
 };
 
-export const getProfile = async (req, res) => {
-  res.status(200).json({
-    message: "Protected route accessed",
-    user: req.user,
-  });
-};
 
 export const adminDashboard = async (req, res) => {
   return res.status(200).json({
     message: "Welcome to the admin dashboard",
     user: req.user,
   });
+};
+
+//PRODUCTS API *
+export const getProducts = async (req, res, next) =>{
+  try{
+    const data = await userService.getProducts();
+    res.status(200).json(data)
+  }catch(error){
+    next(error)
+  }
+  
+}
+
+//PROFILE ENDPOINTS
+export const getProfileById = async (req, res, next) => {
+try {
+  const user = await userService.getProfileById(req.user.userId)
+  if(!user){
+    throw new AppError(
+      "User not found",
+      404
+    )
+  }
+  res.status(200).json({
+    message:"Profile retrieved successfully",
+    user})
+} catch (error) {
+  next(error)
+}
 };

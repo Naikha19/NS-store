@@ -120,13 +120,13 @@
         ]"
       >
         <div
-          class="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-inner"
+          class="w-10 h-10 rounded-full bg-pink-500/70 text-white flex items-center justify-center font-bold text-sm shadow-inner"
         >
-          AP 
+          {{userStore.user?.firstname?.[0] }}{{userStore.user?.lastname?.[0] }} 
         </div>
         <div class="flex-1 min-w-0">
-          <p class="text-sm font-semibold truncate">Alex Parker</p>
-          <p class="text-xs text-slate-400 truncate">Inventory Manager</p>
+          <p class="text-sm font-semibold truncate">{{userStore.user?.firstname}} {{userStore.user?.lastname}}</p>
+          <p class="text-xs text-slate-400 truncate">{{userStore.user?.role}}</p>
         </div>
       </div>
     </aside>
@@ -1590,8 +1590,29 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch, h } from "vue";
+import { ref, computed, onMounted,h } from "vue";
+import {useUserStore} from "../stores/user.js";
 
+const userStore = useUserStore();
+try {
+  onMounted( async () => {
+  const response = await fetch("http://localhost:5000/api/profile",{
+  method: "GET",
+  credentials: "include", 
+})
+const data = await response.json();
+
+console.log("PROFILE DATA:", data)
+
+if(response.ok){
+  userStore.setUser(data.user)
+}
+})
+
+} catch (error) {
+  console.error("Error fetching profile:", error);
+}
+//console.log("DASHBOARD:", userStore.user)
 // --- SAMPLE SEED DATA ---
 const initialProducts = [
   // WOMEN CATEGORY
@@ -1688,7 +1709,6 @@ const isDarkMode = ref(false);
 const isMobileSidebarOpen = ref(false);
 const isNotificationsOpen = ref(false);
 const activeTab = ref("dashboard");
-
 const products = ref([]);
 const transactions = ref([]);
 

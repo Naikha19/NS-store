@@ -8,7 +8,19 @@ export const getUsers = async () => {
   );
   return users.rows;
 };
+export const getProfileById = async (id)=>{
+  const result  = await pool.query(
+    `SELECT id, firstname, lastname, email, role 
+    FROM users
+    WHERE id = $1
+    `,[id]
 
+  );
+  if(result.rows.length === 0){
+    return null
+  }
+  return result.rows[0]
+}
 export const createUser = async (firstname,lastname,email,phonenumber, password) => {
   try {
     const emailExist = await pool.query(
@@ -37,7 +49,7 @@ export const createUser = async (firstname,lastname,email,phonenumber, password)
 export const userLogin = async (email, password) => {
   try {
     const result = await pool.query(
-      "SELECT id, email, password_hash, role FROM users WHERE email = $1",
+      "SELECT id,firstname, lastname, email, password_hash, role FROM users WHERE email = $1",
       [email],
     );
 
@@ -53,6 +65,8 @@ export const userLogin = async (email, password) => {
 
     return {
       id: user.id,
+      firstname: user.firstname,
+      lastname: user.lastname,
       email: user.email,
       role: user.role,
     };
@@ -61,3 +75,9 @@ export const userLogin = async (email, password) => {
     return;
   }
 };
+
+export const getProducts = async () =>{
+  const products = await pool.query()
+  "SELECT  id, name, sku, category_id, cost_price, selling_price, quantity, low_stock_threshold, created_at FROM products"
+  return products.rows;
+}
