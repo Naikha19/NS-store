@@ -77,7 +77,16 @@ export const userLogin = async (email, password) => {
 };
 
 export const getProducts = async () =>{
-  const products = await pool.query()
-  "SELECT  id, name, sku, category_id, cost_price, selling_price, quantity, low_stock_threshold, created_at FROM products"
+try{
+  console.log("Service reached")
+  const products = await pool.query(
+    `SELECT  id, name, category_id, unit, cost_price,
+     selling_price, quantity, low_stock_threshold, created_at
+      FROM products`
+  );
+  console.log("DB query finished")
   return products.rows;
+}catch(error){
+  console.error("Error in getProducts service:", error);
+}
 }
