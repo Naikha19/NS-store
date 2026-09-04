@@ -782,58 +782,52 @@
           >
             <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
               <!-- CATEGORY FILTER -->
-              <select
-                v-model="selectedCategory"
-                :class="[
-                  isDarkMode
-                    ? 'bg-slate-800 border-slate-700 text-white'
-                    : 'bg-slate-100 border-slate-200 text-slate-800',
-                  'px-3 py-2 text-xs rounded-xl border focus:outline-none',
-                ]"
-              >
-                <option value="ALL">All Categories</option>
-                <option v-for="cat in categories" :key="cat" :value="cat">
-                  {{ cat }}
-                </option>
-              </select>
-
-              <!-- STATUS FILTER -->
-              <select
-                v-model="selectedStatus"
-                :class="[
-                  isDarkMode
-                    ? 'bg-slate-800 border-slate-700 text-white'
-                    : 'bg-slate-100 border-slate-200 text-slate-800',
-                  'px-3 py-2 text-xs rounded-xl border focus:outline-none',
-                ]"
-              >
-                <option value="ALL">All Statuses</option>
-                <option value="IN_STOCK">In Stock</option>
-                <option value="LOW_STOCK">Low Stock</option>
-                <option value="OUT_OF_STOCK">Out of Stock</option>
-              </select>
-
-              <!-- RESET FILTERS -->
-              <button
-                @click="resetFilters"
-                class="text-xs text-slate-500 hover:text-[#e02c7d]  px-2 py-1 flex items-center gap-1"
-              >
-                <svg
-                  class="w-3.5 h-3.5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+                <select
+                  v-model="selectedCategory"
+                  :class="[
+                    isDarkMode
+                      ? 'bg-slate-900 border-slate-700 text-slate-200'
+                      : 'bg-white border-slate-200 text-slate-700',
+                    'px-3 py-2 text-xs rounded-lg border focus:outline-none transition-colors duration-200 cursor-pointer shadow-sm',
+                  ]"
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                  />
-                </svg>
-                Reset
-              </button>
-            </div>
+                  <option value="ALL">All Categories</option>
+                  <option v-for="cat in categories" :key="cat" :value="cat">
+                    {{ cat }}
+                  </option>
+                </select>
+
+                <!-- STATUS FILTER -->
+                <select
+                  v-model="selectedStatus"
+                  :class="[
+                    isDarkMode
+                      ? 'bg-slate-900 border-slate-700 text-slate-200 focus:border-pink-500'
+                      : 'bg-white border-slate-200 text-slate-700 focus:border-[#e02c7d]',
+                    'px-3 py-2 text-xs rounded-lg border focus:outline-none transition-colors duration-200 cursor-pointer shadow-sm',
+                  ]"
+                >
+                  <option value="ALL">All Statuses</option>
+                  <option value="IN_STOCK">In Stock</option>
+                  <option value="LOW_STOCK">Low Stock</option>
+                  <option value="OUT_OF_STOCK">Out of Stock</option>
+                </select>
+
+                <!-- RESET FILTERS -->
+                <button
+                  @click="resetFilters"
+                  :class="[
+                    isDarkMode ? 'text-slate-400 hover:text-pink-400' : 'text-slate-500 hover:text-[#e02c7d]',
+                    'text-xs font-medium px-2 py-2 flex items-center gap-1.5 transition-colors duration-200 rounded-md focus:outline-none'
+                  ]"
+                >
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  Reset
+                </button>
+              </div>
+
 
             <!-- EXPORT & ACTIONS -->
             <div class="flex items-center gap-2.5 w-full md:w-auto justify-end">
@@ -1592,7 +1586,9 @@
 <script setup>
 import { ref, computed, onMounted,h } from "vue";
 import {useUserStore} from "../stores/user.js";
+import { useProductStore } from "../stores/product.js";
 
+//USER PROFILE FETCH
 const userStore = useUserStore();
 try {
   onMounted( async () => {
@@ -1612,6 +1608,12 @@ if(response.ok){
 } catch (error) {
   console.error("Error fetching profile:", error);
 }
+//PRODUCT STORE FETCH
+const productStore = useProductStore();
+ onMounted( async () => {
+ await productStore.fetchProducts()
+})
+
 //console.log("DASHBOARD:", userStore.user)
 // --- SAMPLE SEED DATA ---
 const initialProducts = [
