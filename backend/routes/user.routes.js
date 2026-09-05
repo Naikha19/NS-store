@@ -3,8 +3,7 @@ import {authMiddleware} from "../middleware/auth.middleware.js"
 import { authorize } from "../middleware/authorization.middleware.js"
 const router =  express.Router()
 
-import { getUsers, getProfileById, createUser, login,  adminDashboard } from "../controllers/user.controller.js"
-import { getProducts } from "../services/user.service.js"
+import { getUsers, getProfileById, createUser, login,  adminDashboard, getProducts } from "../controllers/user.controller.js"
 
 router.get("/users", authMiddleware, authorize("admin"), getUsers)
 router.post("/signup", createUser)

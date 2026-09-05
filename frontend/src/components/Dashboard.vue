@@ -11,7 +11,7 @@
     <div
       v-if="isMobileSidebarOpen"
       @click="isMobileSidebarOpen = false"
-      class="fixed inset-0 z-0 bg-slate-900/60 backdrop-blur-sm lg:hidden transition-opacity"
+      class="fixed inset-0 z-[40] bg-slate-900/60 backdrop-blur-sm lg:hidden transition-opacity"
     ></div>
 
     <!-- SIDEBAR NAVIGATION -->
@@ -64,7 +64,7 @@
           class="lg:hidden text-slate-400 hover:text-slate-600 dark:hover:text-white"
         >
           <svg
-            class="w-6 h-6"
+            class="w-6 h-6 text-slate-500 hover:text-slate-400"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -139,16 +139,16 @@
           isDarkMode
             ? 'bg-slate-900/80 border-slate-800'
             : 'bg-white/80 border-slate-200',
-          'h-16 border-b backdrop-blur flex items-center justify-between px-4 sm:px-6 z-10',
+          'h-16 border-b backdrop-blur flex items-center justify-between px-3 sm:px-6 z-10',
         ]"
       >
-        <div class="flex items-center space-x-3 sm:space-x-4">
+        <div class="flex items-center space-x-2 sm:space-x-4 min-w-0 flex-1">
           <button
             @click="isMobileSidebarOpen = true"
-            class="lg:hidden p-2 text-slate-400 hover:text-slate-600 dark:hover:text-white rounded-lg"
+            class="lg:hidden shrink-0 p-2 text-slate-400 dark:hover:text-slate-200 rounded-lg"
           >
             <svg
-              class="w-6 h-6"
+              class="w-6 h-6 text-slate-700 hover:text-slate-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -161,14 +161,16 @@
               />
             </svg>
           </button>
-          <h2 class="text-lg sm:text-xl font-bold capitalize tracking-tight">
+
+          <h2 class="text-base sm:text-xl font-bold capitalize tracking-tight truncate">
             {{ activeTabName }}
           </h2>
         </div>
 
-        <div class="flex items-center space-x-2 sm:space-x-3">
+        <div class="flex items-center space-x-1.5 sm:space-x-3 shrink-0">
           <!-- SEARCH FIELD -->
-          <div class="relative w-36 sm:w-64">
+
+          <div class="relative hidden sm:block w-64 shrink-0">
             <svg
               class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
               fill="none"
@@ -182,6 +184,7 @@
                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
               />
             </svg>
+
             <input
               v-model="searchQuery"
               type="text"
@@ -190,19 +193,22 @@
                 isDarkMode
                   ? 'bg-slate-800 border-slate-700 text-white placeholder-slate-500'
                   : 'bg-slate-100 border-slate-200 text-slate-900 placeholder-slate-400',
+
                 'w-full pl-9 pr-4 py-1.5 text-xs sm:text-sm border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all',
               ]"
             />
           </div>
 
           <!-- THEME TOGGLE -->
+
           <button
             @click="isDarkMode = !isDarkMode"
             :class="[
               isDarkMode
                 ? 'bg-slate-800 text-amber-400 border-slate-700'
                 : 'bg-pink-400/90 text-[#fafafa] border-slate-200',
-              'p-2 border rounded-xl hover:opacity-80 transition',
+
+              'shrink-0 p-2 border rounded-xl hover:opacity-80 transition',
             ]"
             title="Toggle theme"
           >
@@ -220,6 +226,7 @@
                 d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
               />
             </svg>
+
             <svg
               v-else
               class="w-5 h-5"
@@ -237,13 +244,15 @@
           </button>
 
           <!-- NOTIFICATION BELL & DROPDOWN -->
-          <div class="relative">
+
+          <div class="relative shrink-0">
             <button
               @click="isNotificationsOpen = !isNotificationsOpen"
               :class="[
                 isDarkMode
                   ? 'bg-slate-800 border-slate-700 text-slate-300'
                   : 'bg-pink-400/90 text-[#fafafa]',
+
                 'relative p-2 border rounded-xl hover:opacity-80 transition',
               ]"
             >
@@ -260,10 +269,12 @@
                   d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
                 />
               </svg>
+
               <span
                 v-if="lowStockCount > 0"
                 class="absolute top-1 right-1 w-2.5 h-2.5 bg-rose-500 rounded-full animate-ping"
               ></span>
+
               <span
                 v-if="lowStockCount > 0"
                 class="absolute top-1 right-1 w-2.5 h-2.5 bg-rose-500 rounded-full"
@@ -278,38 +289,45 @@
                 isDarkMode
                   ? 'bg-slate-900 border-slate-800 text-white'
                   : 'bg-white border-slate-200 text-slate-800',
-                'absolute right-0 mt-2 w-80 border rounded-2xl shadow-2xl p-4 z-50 space-y-3',
+
+                'absolute -right-13 mt-2 w-80 border rounded-2xl shadow-2xl p-4 z-50 space-y-3',
               ]"
             >
               <div
                 class="flex items-center justify-between border-b pb-2 border-inherit"
               >
                 <h4 class="font-bold text-sm">Notifications</h4>
-                <span class="text-xs text-amber-500 font-semibold"
-                  >{{ lowStockCount }} Alerts</span
-                >
+
+                <span class="text-xs text-amber-500 font-semibold">
+                  {{ lowStockCount }} Alerts
+                </span>
               </div>
+
               <div
                 v-if="alertProducts.length === 0"
                 class="text-xs text-slate-400 text-center py-4"
               >
                 No active alerts!
               </div>
+
               <div v-else class="space-y-2 max-h-60 overflow-y-auto">
                 <div
                   v-for="item in alertProducts.slice(0, 4)"
                   :key="item.id"
                   :class="[
                     isDarkMode ? 'bg-slate-800/60' : 'bg-slate-50',
+
                     'p-2.5 rounded-xl flex items-center justify-between text-xs',
                   ]"
                 >
                   <div>
                     <p class="font-semibold">{{ item.name }}</p>
+
                     <p class="text-[10px] text-slate-400 font-mono">
                       {{ item.sku }} • Qty: {{ item.quantity }}
                     </p>
                   </div>
+
                   <button
                     @click="openAdjustModal(item)"
                     class="px-2 py-1 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-[10px] font-medium"
@@ -322,9 +340,10 @@
           </div>
 
           <!-- ADD PRODUCT BTN QUICK -->
+
           <button
             @click="openAddProductModal"
-            class="flex items-center space-x-1.5 px-3.5 py-2 bg-pink-400/90 hover:bg-pink-400/70 text-white rounded-xl text-xs sm:text-sm font-semibold transition shadow-lg shadow-indigo-500/20"
+            class="shrink-0 flex items-center space-x-1.5 px-3.5 py-2 bg-pink-400/90 hover:bg-pink-400/70 text-white rounded-xl text-xs sm:text-sm font-semibold transition shadow-lg shadow-indigo-500/20"
           >
             <svg
               class="w-4 h-4"
@@ -339,6 +358,7 @@
                 d="M12 4v16m8-8H4"
               />
             </svg>
+
             <span class="hidden sm:inline">New Product</span>
           </button>
         </div>
@@ -893,6 +913,7 @@
             ]"
           >
             <div class="overflow-x-auto">
+
               <table class="w-full text-left border-collapse">
                 <thead>
                   <tr
@@ -905,7 +926,7 @@
                   >
                     <th class="p-4 pl-6">Product Details</th>
                     <th class="p-4">Category</th>
-                    <th class="p-4">Cost / Selling</th>
+                    <th class="p-4">Selling / Cost</th>
                     <th class="p-4">Stock Level</th>
                     <th class="p-4">Min Alert</th>
                     <th class="p-4">Total Value</th>
@@ -916,19 +937,17 @@
                 <tbody class="divide-y divide-inherit text-xs">
                   <tr v-if="paginatedProducts.length === 0">
                     <td colspan="8" class="p-12 text-center text-slate-400">
-                      No matching inventory items found.Please add inventory
+                      No matching inventory items found.Please add inventory by clicking " + Add Item "
                     </td>
                   </tr>
+                  <!-- PRODUCTS -->
                   <tr
-                    v-for="item in paginatedProducts"
-                    :key="item.id"
+                    v-for="product in paginatedProducts"
+                    :key="product.id"
                     class="hover:bg-pink-500/5 transition"
                   >
                     <td class="p-4 pl-6">
-                      <div class="font-semibold text-sm">{{ item.name }}</div>
-                      <div class="text-[11px] text-slate-400 font-mono">
-                        {{ item.sku }}
-                      </div>
+                      <div class="font-semibold text-sm">{{ product.name }}</div>
                     </td>
                     <td class="p-4">
                       <span
@@ -939,36 +958,36 @@
                           'px-2.5 py-1 rounded-lg text-[11px] font-medium border',
                         ]"
                       >
-                        {{ item.category }}
+                        {{ product.category_id }}
                       </span>
                     </td>
                     <td class="p-4 font-mono">
                       <div class="font-semibold text-emerald-500">
-                        ${{ formatCurrency(item.sellingPrice) }}
+                        Tsh  {{ formatCurrency(product.selling_price) }}
                       </div>
                       <div class="text-[10px] text-slate-400">
-                        Cost: ${{ formatCurrency(item.costPrice) }}
+                        Cost: Tsh{{ formatCurrency(product.cost_price) }}
                       </div>
                     </td>
                     <td class="p-4">
                       <div class="flex items-center space-x-2">
                         <button
-                          @click="quickAdjustQty(item, -1)"
+                          @click="quickAdjustQty(product, -1)"
                           class="w-6 h-6 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold flex items-center justify-center hover:opacity-80"
                         >
                           -
                         </button>
                         <span
                           :class="
-                            item.quantity === 0
+                            product.quantity === 0
                               ? 'text-rose-500 font-black'
                               : 'font-bold'
                           "
                           class="w-8 text-center text-sm"
-                          >{{ item.quantity }}</span
+                          >{{ product.quantity }}</span
                         >
                         <button
-                          @click="quickAdjustQty(item, 1)"
+                          @click="quickAdjustQty(product, 1)"
                           class="w-6 h-6 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold flex items-center justify-center hover:opacity-80"
                         >
                           +
@@ -976,24 +995,24 @@
                       </div>
                     </td>
                     <td class="p-4 font-mono text-slate-400">
-                      {{ item.minThreshold }}
+                      {{ product.low_stock_threshold }}
                     </td>
                     <td class="p-4 font-bold font-mono">
-                      ${{ formatCurrency(item.sellingPrice * item.quantity) }}
+                      Tsh {{ formatCurrency(product.selling_price * product.quantity) }}
                     </td>
-                    <td class="p-4">
+                    <td class="p-4 whitespace-nowrap">
                       <span
-                        :class="getStatusBadgeClass(item)"
-                        class="px-2.5 py-1 rounded-full text-[10px] font-bold border uppercase tracking-wider"
+                        :class="getStatusBadgeClass(product)"
+                        class="inline-block px-2.5 py-1 rounded-full text-[10px] font-bold border uppercase tracking-wider"
                       >
-                        {{ getStatusLabel(item) }}
+                        {{ getStatusLabel(product) }}
                       </span>
                     </td>
-                    <td class="p-4 pr-6 text-right space-x-1.5">
+                    <td class="p-4 pr-6 text-right space-x-1.5 whitespace-nowrap w-max">
                       <button
-                        @click="openAdjustModal(item)"
+                        @click="openAdjustModal(product)"
                         title="Adjust Stock"
-                        class="p-1.5 rounded-lg text-emerald-500 hover:bg-emerald-500/10"
+                        class="inline-flex items-center justify-center p-1.5 rounded-lg text-emerald-500 hover:bg-emerald-500/10"
                       >
                         <svg
                           class="w-4 h-4"
@@ -1010,9 +1029,9 @@
                         </svg>
                       </button>
                       <button
-                        @click="openEditProductModal(item)"
+                        @click="openEditProductModal(product)"
                         title="Edit Item"
-                        class="p-1.5 rounded-lg text-indigo-500 hover:bg-indigo-500/10"
+                        class="inline-flex items-center justify-center p-1.5 rounded-lg text-indigo-500 hover:bg-indigo-500/10"
                       >
                         <svg
                           class="w-4 h-4"
@@ -1029,9 +1048,9 @@
                         </svg>
                       </button>
                       <button
-                        @click="deleteProduct(item)"
+                        @click="deleteProduct(product)"
                         title="Delete Item"
-                        class="p-1.5 rounded-lg text-rose-500 hover:bg-rose-500/10"
+                        class="inline-flex items-center justify-centerp-1.5 rounded-lg text-rose-500 hover:bg-rose-500/10"
                       >
                         <svg
                           class="w-4 h-4"
@@ -1345,12 +1364,12 @@
 
         <form @submit.prevent="saveProduct" class="p-6 space-y-4 text-xs">
           <div>
-            <label class="block font-semibold mb-1">Product Name *</label>
+            <label class="block font-semibold mb-1">Product Name </label>
             <input
               v-model="productForm.name"
               required
               type="text"
-              placeholder="e.g. Wireless Ergonomic Mouse"
+              placeholder="e.g. Abaya Dress "
               :class="[
                 isDarkMode
                   ? 'bg-slate-800 border-slate-700'
@@ -1360,24 +1379,10 @@
             />
           </div>
 
-          <div class="grid grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 gap-4">
+            
             <div>
-              <label class="block font-semibold mb-1">SKU Code *</label>
-              <input
-                v-model="productForm.sku"
-                required
-                type="text"
-                placeholder="e.g. ELEC-1092"
-                :class="[
-                  isDarkMode
-                    ? 'bg-slate-800 border-slate-700'
-                    : 'bg-slate-100 border-slate-200',
-                  'w-full p-2.5 rounded-xl border focus:outline-none font-mono',
-                ]"
-              />
-            </div>
-            <div>
-              <label class="block font-semibold mb-1">Category *</label>
+              <label class="block font-semibold mb-1">Category</label>
               <select
                 v-model="productForm.category"
                 required
@@ -1397,9 +1402,9 @@
 
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <label class="block font-semibold mb-1">Cost Price ($) *</label>
+              <label class="block font-semibold mb-1">Cost Price (Tsh)</label>
               <input
-                v-model.number="productForm.costPrice"
+                v-model.number="productForm.cost_price"
                 required
                 type="number"
                 step="0.01"
@@ -1414,10 +1419,10 @@
             </div>
             <div>
               <label class="block font-semibold mb-1"
-                >Selling Price ($) *</label
+                >Selling Price (Tsh)</label
               >
               <input
-                v-model.number="productForm.sellingPrice"
+                v-model.number="productForm.selling_price"
                 required
                 type="number"
                 step="0.01"
@@ -1434,7 +1439,7 @@
 
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <label class="block font-semibold mb-1">Initial Quantity *</label>
+              <label class="block font-semibold mb-1">Initial Quantity</label>
               <input
                 v-model.number="productForm.quantity"
                 required
@@ -1450,10 +1455,10 @@
             </div>
             <div>
               <label class="block font-semibold mb-1"
-                >Min Threshold Alert *</label
+                >Min Threshold Alert</label
               >
               <input
-                v-model.number="productForm.minThreshold"
+                v-model.number="productForm.low_stock_threshold"
                 required
                 type="number"
                 min="0"
@@ -1477,7 +1482,7 @@
             </button>
             <button
               type="submit"
-              class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-semibold shadow-lg shadow-indigo-500/20"
+              class="px-5 py-2 bg-pink-600/60 hover:bg-pink-300 text-white rounded-xl font-semibold shadow-lg shadow-pink-500/20"
             >
               Save Product
             </button>
@@ -1592,7 +1597,9 @@
 <script setup>
 import { ref, computed, onMounted,h } from "vue";
 import {useUserStore} from "../stores/user.js";
+import { useProductStore } from "../stores/product.js";
 
+//USER PROFILE FETCH
 const userStore = useUserStore();
 try {
   onMounted( async () => {
@@ -1612,104 +1619,21 @@ if(response.ok){
 } catch (error) {
   console.error("Error fetching profile:", error);
 }
+//PRODUCT STORE FETCH
+const productStore = useProductStore();
+ onMounted(async () => {
+ await productStore.fetchProducts()
+})
+
 //console.log("DASHBOARD:", userStore.user)
 // --- SAMPLE SEED DATA ---
-const initialProducts = [
-  // WOMEN CATEGORY
-  {
-    id: "1",
-    name: "Women's Floral Summer Dress",
-    sku: "WMS-FLR-DRS-01",
-    category: "Women's wear",
-    costPrice: 15.00,
-    sellingPrice: 29.99,
-    quantity: 46,
-    minThreshold: 10,
-  },
-  {
-    id: "2",
-    name: "High-Waisted Denim Jeans",
-    sku: "WMS-DNM-JNS-02",
-    category: "Women's wear",
-    costPrice: 18.50,
-    sellingPrice: 39.99,
-    quantity: 30,
-    minThreshold: 8,
-  },
-
-   // MEN CATEGORY
-  {
-    id: "3",
-    name: "Men's Slim-Fit Oxford Shirt",
-    sku: "MEN-OXF-SHR-01",
-    category: "Men's wear",
-    costPrice: 12.00,
-    sellingPrice: 24.99,
-    quantity: 50,
-    minThreshold: 12,
-  },
-  {
-    id: "4",
-    name: "Classic Chino Trousers",
-    sku: "MEN-CHN-TR-02",
-    category: "Men's wear",
-    costPrice: 16.00,
-    sellingPrice: 34.99,
-    quantity: 25,
-    minThreshold: 5,
-  },
-  // 🧸 KIDS CATEGORY
-  {
-    id: "5",
-    name: "Toddler Cotton Pajama Set",
-    sku: "KID-COT-PJ-01",
-    category: "Kids",
-    costPrice: 7.50,
-    sellingPrice: 14.99,
-    quantity: 60,
-    minThreshold: 15,
-  },
-  {
-    id: "6",
-    name: "Kids Light-Up Sneakers",
-    sku: "KID-LGT-SNK-02",
-    category: "Kids",
-    costPrice: 11.00,
-    sellingPrice: 21.99,
-    quantity: 18,
-    minThreshold: 6,
-  },
- // ACCESSORY CATEGORY
-  {
-    id: "7",
-    name: "Leather Minimalist Wallet",
-    sku: "ACC-LTH-WLT-01",
-    category: "Accessories",
-    costPrice: 9.00,
-    sellingPrice: 19.99,
-    quantity: 40,
-    minThreshold: 10,
-  },
-  {
-    id: "8",
-    name: "Aviator Polarized Sunglasses",
-    sku: "ACC-AVT-SUN-02",
-    category: "Accessories",
-    costPrice: 6.50,
-    sellingPrice: 15.00,
-    quantity: 12,
-    minThreshold: 4,
-  }
-];
-
-const categories = ["Women's wear", "Men's wear","Kids","Accessories"];
+const categories = ["Women", "Men","Kids","Accessories"];
 
 // --- STATE DEFINITIONS ---
 const isDarkMode = ref(false);
 const isMobileSidebarOpen = ref(false);
 const isNotificationsOpen = ref(false);
 const activeTab = ref("dashboard");
-const products = ref([]);
 const transactions = ref([]);
 
 const searchQuery = ref("");
@@ -1726,12 +1650,12 @@ const isEditing = ref(false);
 const productForm = ref({
   id: null,
   name: "",
-  sku: "",
-  category: "Electronics",
-  costPrice: 0,
-  sellingPrice: 0,
+  category_id: null,
+  unit: "piece",
+  cost_price: 0,
+  selling_price: 0,
   quantity: 0,
-  minThreshold: 5
+  low_stock_threshold: 5
 });
 
 const showAdjustModal = ref(false);
@@ -1859,33 +1783,33 @@ const activeTabName = computed(
   () => navItems.find((i) => i.id === activeTab.value)?.name || "Dashboard",
 );
 
-const totalProducts = computed(() => products.value.length);
+const totalProducts = computed(() => productStore.products.length);
 const totalValue = computed(() =>
-  products.value.reduce((acc, p) => acc + p.sellingPrice * p.quantity, 0),
+  productStore.products.reduce((acc, p) => acc + Number(p.selling_price) * p.quantity, 0),
 );
 const avgItemValue = computed(() =>
   totalProducts.value ? totalValue.value / totalProducts.value : 0,
 );
 
 const alertProducts = computed(() =>
-  products.value.filter((p) => p.quantity <= p.minThreshold),
+  productStore.products.filter((p) => p.quantity <= p.low_stock_threshold),
 );
 const lowStockCount = computed(() => alertProducts.value.length);
 const outOfStockCount = computed(
-  () => products.value.filter((p) => p.quantity === 0).length,
+  () => productStore.products.filter((p) => p.quantity === 0).length,
 );
 
 const stockHealthPercentage = computed(() => {
   if (!totalProducts.value) return 100;
-  const healthy = products.value.filter(
-    (p) => p.quantity > p.minThreshold,
+  const healthy = productStore.products.filter(
+    (p) => p.quantity > p.low_stock_threshold,
   ).length;
   return Math.round((healthy / totalProducts.value) * 100);
 });
 
 const potentialProfit = computed(() => {
-  return products.value.reduce(
-    (acc, p) => acc + (p.sellingPrice - p.costPrice) * p.quantity,
+  return productStore.products.reduce(
+    (acc, p) => acc + (Number(p.selling_price) - Number(p.cost_price)) * p.quantity,
     0,
   );
 });
@@ -1893,10 +1817,19 @@ const potentialProfit = computed(() => {
 // Category metrics breakdown
 const categoryMetrics = computed(() => {
   const total = totalValue.value || 1;
-  return categories.map((cat) => {
-    const val = products.value
-      .filter((p) => p.category === cat)
-      .reduce((acc, p) => acc + p.sellingPrice * p.quantity, 0);
+
+  return categories.map((cat, index) => {
+    const categoryId = index + 1;
+
+    const val = productStore.products
+      .filter((p) => p.category_id === categoryId)
+      .reduce(
+        (acc, p) =>
+          acc +
+          Number(p.selling_price) * Number(p.quantity),
+        0
+      );
+
     return {
       name: cat,
       value: val,
@@ -1907,21 +1840,29 @@ const categoryMetrics = computed(() => {
 
 // Filtered products list for inventory table
 const filteredProducts = computed(() => {
-  return products.value.filter((p) => {
-    const matchesSearch =
-      !searchQuery.value ||
-      p.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      p.sku.toLowerCase().includes(searchQuery.value.toLowerCase());
-    const matchesCategory =
-      selectedCategory.value === "ALL" || p.category === selectedCategory.value;
+  const query = searchQuery.value.trim().toLowerCase();
 
+  return productStore.products.filter((p) => {
+    //search
+    const matchesSearch =
+      !query ||
+      p.name.toLowerCase().includes(query)
+      
+      //category
+    const matchesCategory =
+      selectedCategory.value === "ALL" || p.category_id === Number(selectedCategory.value);
+
+      //status
     let matchesStatus = true;
+
     if (selectedStatus.value === "OUT_OF_STOCK")
       matchesStatus = p.quantity === 0;
     else if (selectedStatus.value === "LOW_STOCK")
-      matchesStatus = p.quantity > 0 && p.quantity <= p.minThreshold;
+      matchesStatus = p.quantity > 0 
+    && p.quantity <= p.low_stock_threshold;
+    
     else if (selectedStatus.value === "IN_STOCK")
-      matchesStatus = p.quantity > p.minThreshold;
+      matchesStatus = p.quantity > p.low_stock_threshold;
 
     return matchesSearch && matchesCategory && matchesStatus;
   });
@@ -1951,6 +1892,7 @@ const paginatedProducts = computed(() => {
 // Filtered Transactions
 const filteredTransactions = computed(() => {
   if (txFilterType.value === "ALL") return transactions.value;
+
   return transactions.value.filter((t) => t.type === txFilterType.value);
 });
 
@@ -1984,7 +1926,7 @@ const maxTrendQty = computed(() => {
 
 // --- HELPER UTILITIES ---
 const formatCurrency = (val) =>
-  Number(val || 0).toLocaleString("en-US", {
+  Number(val || 0).toLocaleString("Tsh", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
@@ -1993,14 +1935,14 @@ const formatDate = (ts) => new Date(ts).toLocaleString();
 const getStatusBadgeClass = (item) => {
   if (item.quantity === 0)
     return "bg-rose-500/10 text-rose-500 border-rose-500/30";
-  if (item.quantity <= item.minThreshold)
+  if (item.quantity <= item.low_stock_threshold)
     return "bg-amber-500/10 text-amber-500 border-amber-500/30";
   return "bg-emerald-500/10 text-emerald-500 border-emerald-500/30";
 };
 
 const getStatusLabel = (item) => {
   if (item.quantity === 0) return "Out of Stock";
-  if (item.quantity <= item.minThreshold) return "Low Stock";
+  if (item.quantity <= item.low_stock_threshold) return "Low Stock";
   return "In Stock";
 };
 
@@ -2015,28 +1957,14 @@ const showToast = (message, type = "success") => {
 // --- STREAMING_CHUNK:Writing CRUD functions and LocalStorage syncing... ---
 // --- DATA PERSISTENCE & ACTIONS ---
 const loadStorage = () => {
-  const localProd = localStorage.getItem("stockpulse_products");
-  products.value = localProd ? JSON.parse(localProd) : initialProducts;
 
   const localTx = localStorage.getItem("stockpulse_tx");
   transactions.value = localTx
     ? JSON.parse(localTx)
-    : [
-        {
-          id: "tx-1",
-          sku: "ELEC-9921",
-          productName: 'Ultra-Wide Monitor 34"',
-          type: "IN",
-          quantity: 10,
-          note: "Supplier Restock",
-          timestamp: Date.now() - 3600000,
-          actor: "Alex Parker",
-        },
-      ];
+    : [];
 };
 
 const saveStorage = () => {
-  localStorage.setItem("stockpulse_products", JSON.stringify(products.value));
   localStorage.setItem("stockpulse_tx", JSON.stringify(transactions.value));
 };
 
@@ -2053,12 +1981,12 @@ const openAddProductModal = () => {
   productForm.value = {
     id: null,
     name: "",
-    sku: "",
-    category: "Electronics",
-    costPrice: 0,
-    sellingPrice: 0,
+    category_id: "",
+    unit: "piece",
+    cost_price: 0,
+    selling_price: 0,
     quantity: 0,
-    minThreshold: 5,
+    low_stock_threshold: 5,
   };
   showProductModal.value = true;
 };
@@ -2069,6 +1997,8 @@ const openEditProductModal = (item) => {
   showProductModal.value = true;
 };
 
+//NEEDS FIXING AFTER INTEGRATION WITH STORE AND API POST /api/products
+//PUT /api/products/:id
 const saveProduct = () => {
   if (isEditing.value) {
     const idx = products.value.findIndex((p) => p.id === productForm.value.id);
@@ -2099,6 +2029,7 @@ const saveProduct = () => {
   showProductModal.value = false;
 };
 
+//NEEDS API FOR DELETE DELETE /api/products/:id
 const deleteProduct = (item) => {
   if (confirm(`Delete "${item.name}"?`)) {
     products.value = products.value.filter((p) => p.id !== item.id);
@@ -2107,6 +2038,7 @@ const deleteProduct = (item) => {
   }
 };
 
+//PATCH /api/products/:id/quantity
 const quickAdjustQty = (item, delta) => {
   if (item.quantity + delta < 0) return;
   item.quantity += delta;
@@ -2134,6 +2066,7 @@ const openAdjustModal = (item) => {
   showAdjustModal.value = true;
 };
 
+//POST /api/products/:id/adjust-stock
 const saveStockAdjust = () => {
   if (!selectedProductForAdjust.value) return;
   const item = selectedProductForAdjust.value;
@@ -2162,6 +2095,7 @@ const saveStockAdjust = () => {
   showAdjustModal.value = false;
 };
 
+//CAN BE REMOVED
 const resetToDefaultData = () => {
   products.value = [...initialProducts];
   transactions.value = [];
@@ -2172,30 +2106,34 @@ const resetToDefaultData = () => {
 const exportCSV = () => {
   const headers = [
     "ID",
-    "SKU",
     "Name",
+    "Unit",
     "Category",
-    "CostPrice",
-    "SellingPrice",
+    "Cost Price",
+    "Selling Price",
     "Quantity",
-    "MinThreshold",
+    "Low Stock Threshold",
   ];
-  const rows = products.value.map((p) => [
+  const rows = productStore.products.map((p) => [
     p.id,
-    `"${p.sku}"`,
     `"${p.name}"`,
-    `"${p.category}"`,
-    p.costPrice,
-    p.sellingPrice,
+    p.category,
+    p.unit,
+    p.cost_price,
+    p.selling_price,
     p.quantity,
-    p.minThreshold,
-  ]);
+    p.low_stock_threshold,
+
+    ]);
 
   const content =
     "data:text/csv;charset=utf-8," +
     [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+
   const link = document.createElement("a");
+
   link.setAttribute("href", encodeURI(content));
+
   link.setAttribute("download", `inventory_export_${Date.now()}.csv`);
   document.body.appendChild(link);
   link.click();
@@ -2204,7 +2142,9 @@ const exportCSV = () => {
 };
 
 // Lifecycle
-onMounted(() => {
+onMounted( async () => {
   loadStorage();
+
+  await productStore.fetchProducts();
 });
 </script>

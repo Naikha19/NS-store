@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
+const router = useRouter()
 const firstName = ref("");
 const lastName = ref("");
 const email = ref("");
@@ -89,6 +91,7 @@ const signup = async () => {
     })
      const data = await response.json()
      console.log(data)
+     router.push("/login")
   } catch (error) {
     console.error("Signup failed:", error);
   }

@@ -13,7 +13,8 @@ export const getUsers = async (req, res, next) => {
   }
 };
 //GET USER BY ID
- 
+
+//SIGNUP API
 export const createUser = async (req, res, next) => {
   const { firstName,lastName,email,phoneNumber, password } = req.body;
 
@@ -46,6 +47,7 @@ export const createUser = async (req, res, next) => {
   }
 };
 
+//LOGIN API
 export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -91,7 +93,7 @@ export const login = async (req, res, next) => {
   }
 };
 
-
+//ADMIN DASHBOARD API
 export const adminDashboard = async (req, res) => {
   return res.status(200).json({
     message: "Welcome to the admin dashboard",
@@ -102,15 +104,18 @@ export const adminDashboard = async (req, res) => {
 //PRODUCTS API *
 export const getProducts = async (req, res, next) =>{
   try{
+    console.log("controller reached")
     const data = await userService.getProducts();
-    res.status(200).json(data)
+    console.log("data retrieved", data)
+    return res.status(200).json(data)
   }catch(error){
+    console.error("Error retrieving products:", error);
     next(error)
   }
   
 }
 
-//PROFILE ENDPOINTS
+//PROFILE API
 export const getProfileById = async (req, res, next) => {
 try {
   const user = await userService.getProfileById(req.user.userId)
