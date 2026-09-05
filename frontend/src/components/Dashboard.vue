@@ -935,14 +935,14 @@
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-inherit text-xs">
-                  <tr v-if="productStore.products.length === 0">
+                  <tr v-if="paginatedProducts.length === 0">
                     <td colspan="8" class="p-12 text-center text-slate-400">
                       No matching inventory items found.Please add inventory by clicking " + Add Item "
                     </td>
                   </tr>
                   <!-- PRODUCTS -->
                   <tr
-                    v-for="product in productStore.products"
+                    v-for="product in paginatedProducts"
                     :key="product.id"
                     class="hover:bg-pink-500/5 transition"
                   >
@@ -1000,19 +1000,19 @@
                     <td class="p-4 font-bold font-mono">
                       Tsh {{ formatCurrency(product.selling_price * product.quantity) }}
                     </td>
-                    <td class="p-4">
+                    <td class="p-4 whitespace-nowrap">
                       <span
                         :class="getStatusBadgeClass(product)"
-                        class="px-2.5 py-1 rounded-full text-[10px] font-bold border uppercase tracking-wider"
+                        class="inline-block px-2.5 py-1 rounded-full text-[10px] font-bold border uppercase tracking-wider"
                       >
                         {{ getStatusLabel(product) }}
                       </span>
                     </td>
-                    <td class="p-4 pr-6 text-right space-x-1.5">
+                    <td class="p-4 pr-6 text-right space-x-1.5 whitespace-nowrap w-max">
                       <button
                         @click="openAdjustModal(product)"
                         title="Adjust Stock"
-                        class="p-1.5 rounded-lg text-emerald-500 hover:bg-emerald-500/10"
+                        class="inline-flex items-center justify-center p-1.5 rounded-lg text-emerald-500 hover:bg-emerald-500/10"
                       >
                         <svg
                           class="w-4 h-4"
@@ -1031,7 +1031,7 @@
                       <button
                         @click="openEditProductModal(product)"
                         title="Edit Item"
-                        class="p-1.5 rounded-lg text-indigo-500 hover:bg-indigo-500/10"
+                        class="inline-flex items-center justify-center p-1.5 rounded-lg text-indigo-500 hover:bg-indigo-500/10"
                       >
                         <svg
                           class="w-4 h-4"
@@ -1050,7 +1050,7 @@
                       <button
                         @click="deleteProduct(product)"
                         title="Delete Item"
-                        class="p-1.5 rounded-lg text-rose-500 hover:bg-rose-500/10"
+                        class="inline-flex items-center justify-centerp-1.5 rounded-lg text-rose-500 hover:bg-rose-500/10"
                       >
                         <svg
                           class="w-4 h-4"
@@ -1364,12 +1364,12 @@
 
         <form @submit.prevent="saveProduct" class="p-6 space-y-4 text-xs">
           <div>
-            <label class="block font-semibold mb-1">Product Name *</label>
+            <label class="block font-semibold mb-1">Product Name </label>
             <input
               v-model="productForm.name"
               required
               type="text"
-              placeholder="e.g. Wireless Ergonomic Mouse"
+              placeholder="e.g. Abaya Dress "
               :class="[
                 isDarkMode
                   ? 'bg-slate-800 border-slate-700'
@@ -1379,24 +1379,10 @@
             />
           </div>
 
-          <div class="grid grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 gap-4">
+            
             <div>
-              <label class="block font-semibold mb-1">SKU Code *</label>
-              <input
-                v-model="productForm.sku"
-                required
-                type="text"
-                placeholder="e.g. ELEC-1092"
-                :class="[
-                  isDarkMode
-                    ? 'bg-slate-800 border-slate-700'
-                    : 'bg-slate-100 border-slate-200',
-                  'w-full p-2.5 rounded-xl border focus:outline-none font-mono',
-                ]"
-              />
-            </div>
-            <div>
-              <label class="block font-semibold mb-1">Category *</label>
+              <label class="block font-semibold mb-1">Category</label>
               <select
                 v-model="productForm.category"
                 required
@@ -1416,9 +1402,9 @@
 
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <label class="block font-semibold mb-1">Cost Price ($) *</label>
+              <label class="block font-semibold mb-1">Cost Price (Tsh)</label>
               <input
-                v-model.number="productForm.costPrice"
+                v-model.number="productForm.cost_price"
                 required
                 type="number"
                 step="0.01"
@@ -1433,10 +1419,10 @@
             </div>
             <div>
               <label class="block font-semibold mb-1"
-                >Selling Price ($) *</label
+                >Selling Price (Tsh)</label
               >
               <input
-                v-model.number="productForm.sellingPrice"
+                v-model.number="productForm.selling_price"
                 required
                 type="number"
                 step="0.01"
@@ -1453,7 +1439,7 @@
 
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <label class="block font-semibold mb-1">Initial Quantity *</label>
+              <label class="block font-semibold mb-1">Initial Quantity</label>
               <input
                 v-model.number="productForm.quantity"
                 required
@@ -1469,10 +1455,10 @@
             </div>
             <div>
               <label class="block font-semibold mb-1"
-                >Min Threshold Alert *</label
+                >Min Threshold Alert</label
               >
               <input
-                v-model.number="productForm.minThreshold"
+                v-model.number="productForm.low_stock_threshold"
                 required
                 type="number"
                 min="0"
@@ -1496,7 +1482,7 @@
             </button>
             <button
               type="submit"
-              class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-semibold shadow-lg shadow-indigo-500/20"
+              class="px-5 py-2 bg-pink-600/60 hover:bg-pink-300 text-white rounded-xl font-semibold shadow-lg shadow-pink-500/20"
             >
               Save Product
             </button>
@@ -1648,7 +1634,6 @@ const isDarkMode = ref(false);
 const isMobileSidebarOpen = ref(false);
 const isNotificationsOpen = ref(false);
 const activeTab = ref("dashboard");
-const products = ref([]);
 const transactions = ref([]);
 
 const searchQuery = ref("");
@@ -1665,12 +1650,12 @@ const isEditing = ref(false);
 const productForm = ref({
   id: null,
   name: "",
-  sku: "",
-  category: "Electronics",
-  costPrice: 0,
-  sellingPrice: 0,
+  category_id: null,
+  unit: "piece",
+  cost_price: 0,
+  selling_price: 0,
   quantity: 0,
-  minThreshold: 5
+  low_stock_threshold: 5
 });
 
 const showAdjustModal = ref(false);
@@ -1807,24 +1792,24 @@ const avgItemValue = computed(() =>
 );
 
 const alertProducts = computed(() =>
-  products.value.filter((p) => p.quantity <= p.minThreshold),
+  productStore.products.filter((p) => p.quantity <= p.low_stock_threshold),
 );
 const lowStockCount = computed(() => alertProducts.value.length);
 const outOfStockCount = computed(
-  () => products.value.filter((p) => p.quantity === 0).length,
+  () => productStore.products.filter((p) => p.quantity === 0).length,
 );
 
 const stockHealthPercentage = computed(() => {
   if (!totalProducts.value) return 100;
-  const healthy = products.value.filter(
-    (p) => p.quantity > p.minThreshold,
+  const healthy = productStore.products.filter(
+    (p) => p.quantity > p.low_stock_threshold,
   ).length;
   return Math.round((healthy / totalProducts.value) * 100);
 });
 
 const potentialProfit = computed(() => {
-  return products.value.reduce(
-    (acc, p) => acc + (p.sellingPrice - p.costPrice) * p.quantity,
+  return productStore.products.reduce(
+    (acc, p) => acc + (Number(p.selling_price) - Number(p.cost_price)) * p.quantity,
     0,
   );
 });
@@ -1832,10 +1817,19 @@ const potentialProfit = computed(() => {
 // Category metrics breakdown
 const categoryMetrics = computed(() => {
   const total = totalValue.value || 1;
-  return categories.map((cat) => {
-    const val = products.value
-      .filter((p) => p.category === cat)
-      .reduce((acc, p) => acc + p.sellingPrice * p.quantity, 0);
+
+  return categories.map((cat, index) => {
+    const categoryId = index + 1;
+
+    const val = productStore.products
+      .filter((p) => p.category_id === categoryId)
+      .reduce(
+        (acc, p) =>
+          acc +
+          Number(p.selling_price) * Number(p.quantity),
+        0
+      );
+
     return {
       name: cat,
       value: val,
@@ -1846,21 +1840,29 @@ const categoryMetrics = computed(() => {
 
 // Filtered products list for inventory table
 const filteredProducts = computed(() => {
-  return products.value.filter((p) => {
-    const matchesSearch =
-      !searchQuery.value ||
-      p.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      p.sku.toLowerCase().includes(searchQuery.value.toLowerCase());
-    const matchesCategory =
-      selectedCategory.value === "ALL" || p.category === selectedCategory.value;
+  const query = searchQuery.value.trim().toLowerCase();
 
+  return productStore.products.filter((p) => {
+    //search
+    const matchesSearch =
+      !query ||
+      p.name.toLowerCase().includes(query)
+      
+      //category
+    const matchesCategory =
+      selectedCategory.value === "ALL" || p.category_id === Number(selectedCategory.value);
+
+      //status
     let matchesStatus = true;
+
     if (selectedStatus.value === "OUT_OF_STOCK")
       matchesStatus = p.quantity === 0;
     else if (selectedStatus.value === "LOW_STOCK")
-      matchesStatus = p.quantity > 0 && p.quantity <= p.minThreshold;
+      matchesStatus = p.quantity > 0 
+    && p.quantity <= p.low_stock_threshold;
+    
     else if (selectedStatus.value === "IN_STOCK")
-      matchesStatus = p.quantity > p.minThreshold;
+      matchesStatus = p.quantity > p.low_stock_threshold;
 
     return matchesSearch && matchesCategory && matchesStatus;
   });
@@ -1890,6 +1892,7 @@ const paginatedProducts = computed(() => {
 // Filtered Transactions
 const filteredTransactions = computed(() => {
   if (txFilterType.value === "ALL") return transactions.value;
+
   return transactions.value.filter((t) => t.type === txFilterType.value);
 });
 
@@ -1923,7 +1926,7 @@ const maxTrendQty = computed(() => {
 
 // --- HELPER UTILITIES ---
 const formatCurrency = (val) =>
-  Number(val || 0).toLocaleString("en-US", {
+  Number(val || 0).toLocaleString("Tsh", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
@@ -1932,14 +1935,14 @@ const formatDate = (ts) => new Date(ts).toLocaleString();
 const getStatusBadgeClass = (item) => {
   if (item.quantity === 0)
     return "bg-rose-500/10 text-rose-500 border-rose-500/30";
-  if (item.quantity <= item.minThreshold)
+  if (item.quantity <= item.low_stock_threshold)
     return "bg-amber-500/10 text-amber-500 border-amber-500/30";
   return "bg-emerald-500/10 text-emerald-500 border-emerald-500/30";
 };
 
 const getStatusLabel = (item) => {
   if (item.quantity === 0) return "Out of Stock";
-  if (item.quantity <= item.minThreshold) return "Low Stock";
+  if (item.quantity <= item.low_stock_threshold) return "Low Stock";
   return "In Stock";
 };
 
@@ -1954,28 +1957,14 @@ const showToast = (message, type = "success") => {
 // --- STREAMING_CHUNK:Writing CRUD functions and LocalStorage syncing... ---
 // --- DATA PERSISTENCE & ACTIONS ---
 const loadStorage = () => {
-  const localProd = localStorage.getItem("stockpulse_products");
-  products.value = localProd ? JSON.parse(localProd) : initialProducts;
 
   const localTx = localStorage.getItem("stockpulse_tx");
   transactions.value = localTx
     ? JSON.parse(localTx)
-    : [
-        {
-          id: "tx-1",
-          sku: "ELEC-9921",
-          productName: 'Ultra-Wide Monitor 34"',
-          type: "IN",
-          quantity: 10,
-          note: "Supplier Restock",
-          timestamp: Date.now() - 3600000,
-          actor: "Alex Parker",
-        },
-      ];
+    : [];
 };
 
 const saveStorage = () => {
-  localStorage.setItem("stockpulse_products", JSON.stringify(products.value));
   localStorage.setItem("stockpulse_tx", JSON.stringify(transactions.value));
 };
 
@@ -1992,12 +1981,12 @@ const openAddProductModal = () => {
   productForm.value = {
     id: null,
     name: "",
-    sku: "",
-    category: "Electronics",
-    costPrice: 0,
-    sellingPrice: 0,
+    category_id: "",
+    unit: "piece",
+    cost_price: 0,
+    selling_price: 0,
     quantity: 0,
-    minThreshold: 5,
+    low_stock_threshold: 5,
   };
   showProductModal.value = true;
 };
@@ -2008,6 +1997,8 @@ const openEditProductModal = (item) => {
   showProductModal.value = true;
 };
 
+//NEEDS FIXING AFTER INTEGRATION WITH STORE AND API POST /api/products
+//PUT /api/products/:id
 const saveProduct = () => {
   if (isEditing.value) {
     const idx = products.value.findIndex((p) => p.id === productForm.value.id);
@@ -2038,6 +2029,7 @@ const saveProduct = () => {
   showProductModal.value = false;
 };
 
+//NEEDS API FOR DELETE DELETE /api/products/:id
 const deleteProduct = (item) => {
   if (confirm(`Delete "${item.name}"?`)) {
     products.value = products.value.filter((p) => p.id !== item.id);
@@ -2046,6 +2038,7 @@ const deleteProduct = (item) => {
   }
 };
 
+//PATCH /api/products/:id/quantity
 const quickAdjustQty = (item, delta) => {
   if (item.quantity + delta < 0) return;
   item.quantity += delta;
@@ -2073,6 +2066,7 @@ const openAdjustModal = (item) => {
   showAdjustModal.value = true;
 };
 
+//POST /api/products/:id/adjust-stock
 const saveStockAdjust = () => {
   if (!selectedProductForAdjust.value) return;
   const item = selectedProductForAdjust.value;
@@ -2101,6 +2095,7 @@ const saveStockAdjust = () => {
   showAdjustModal.value = false;
 };
 
+//CAN BE REMOVED
 const resetToDefaultData = () => {
   products.value = [...initialProducts];
   transactions.value = [];
@@ -2111,30 +2106,34 @@ const resetToDefaultData = () => {
 const exportCSV = () => {
   const headers = [
     "ID",
-    "SKU",
     "Name",
+    "Unit",
     "Category",
-    "CostPrice",
-    "SellingPrice",
+    "Cost Price",
+    "Selling Price",
     "Quantity",
-    "MinThreshold",
+    "Low Stock Threshold",
   ];
-  const rows = products.value.map((p) => [
+  const rows = productStore.products.map((p) => [
     p.id,
-    `"${p.sku}"`,
     `"${p.name}"`,
-    `"${p.category}"`,
-    p.costPrice,
-    p.sellingPrice,
+    p.category,
+    p.unit,
+    p.cost_price,
+    p.selling_price,
     p.quantity,
-    p.minThreshold,
-  ]);
+    p.low_stock_threshold,
+
+    ]);
 
   const content =
     "data:text/csv;charset=utf-8," +
     [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+
   const link = document.createElement("a");
+
   link.setAttribute("href", encodeURI(content));
+
   link.setAttribute("download", `inventory_export_${Date.now()}.csv`);
   document.body.appendChild(link);
   link.click();
@@ -2143,7 +2142,9 @@ const exportCSV = () => {
 };
 
 // Lifecycle
-onMounted(() => {
+onMounted( async () => {
   loadStorage();
+
+  await productStore.fetchProducts();
 });
 </script>
